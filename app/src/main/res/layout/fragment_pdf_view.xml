@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="pdfViewViewModel"
+            type="com.pdstudios.electricalinstallationworkscertificate.screens.pdfView.PdfViewViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DCE8A9"
+        tools:context=".screens.pdfView.PdfViewFragment">
+
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:onClick="@{()->pdfViewViewModel.onBack()}"
+            android:text="@string/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView_pdf"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <Button
+            android:id="@+id/button_nextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->pdfViewViewModel.onNextPage()}"
+            android:text="@string/rightArrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toEndOf="@+id/button_back"
+            app:layout_constraintTop_toTopOf="@+id/button_back" />
+
+        <Button
+            android:id="@+id/button_previousPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->pdfViewViewModel.onPreviousPage()}"
+            android:text="@string/leftArrow"
+            app:layout_constraintEnd_toStartOf="@+id/button_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/button_back" />
+
+        <TextView
+            android:id="@+id/textView_pageNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="@{pdfViewViewModel.pageNumberText}"
+            app:layout_constraintBottom_toTopOf="@+id/button_back"
+            app:layout_constraintEnd_toEndOf="@+id/button_back"
+            app:layout_constraintStart_toStartOf="@+id/button_back" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

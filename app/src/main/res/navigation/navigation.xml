@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/minorEiwsForm">
+
+    <fragment
+        android:id="@+id/minorEiwsForm"
+        android:name="com.pdstudios.electricalinstallationworkscertificate.screens.minorEiwsForm.MinorEiwsForm"
+        android:label="fragment_minor_eiws_form"
+        tools:layout="@layout/fragment_minor_eiws_form" >
+        <action
+            android:id="@+id/action_minorEiwsForm_to_pdfViewFragment"
+            app:destination="@id/pdfViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pdfViewFragment"
+        android:name="com.pdstudios.electricalinstallationworkscertificate.screens.pdfView.PdfViewFragment"
+        android:label="PdfViewFragment"
+        tools:layout="@layout/fragment_pdf_view">
+        <action
+            android:id="@+id/action_pdfViewFragment_to_minorEiwsForm"
+            app:destination="@id/minorEiwsForm" />
+        <argument
+            android:name="key"
+            app:argType="long" />
+    </fragment>
+</navigation>

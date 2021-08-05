@@ -1,0 +1,2 @@
+rootProject.name = "Electrical Installation Works Certificate"
+include ':app'
