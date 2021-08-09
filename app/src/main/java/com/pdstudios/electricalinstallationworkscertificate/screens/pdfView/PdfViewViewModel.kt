@@ -120,16 +120,10 @@ class PdfViewViewModel(
             it["descriptionMinorWorks"]?.setValue(mEiwsForm.descriptionMinorWorks)
             it["detailsOfDepartures"]?.setValue(mEiwsForm.detailsOfDepartures)
             it["commentsOnExistingInstallations"]?.setValue(mEiwsForm.commentsExistingInstallation)
-            val temp2 = it["riskAssessmentAttached"]?.appearanceStates
-            val temp3 = it["riskAssessmentAttached"]?.fieldFlags
             it["riskAssessmentAttached"]?.setCheckType(PdfFormField.TYPE_CHECK)
-            it["riskAssessmentAttached"]?.setValue("/No")
-//            it["riskAssessmentAttached"]?.setValue(
-//                if (mEiwsForm.riskAssessmentAttached) {
-//                    "Yes"
-//                } else {
-//                    "Off"
-//                })
+            if(mEiwsForm.riskAssessmentAttached) {
+                it["riskAssessmentAttached"]?.setValue("Yes")
+            }
         }
         return form
     }
@@ -169,7 +163,6 @@ class PdfViewViewModel(
     }
 
     fun getShareIntent() : Intent {
-
         val pdfUri = FileProvider.getUriForFile(
             app.baseContext,
             app.applicationContext.packageName + ".provider",
@@ -178,8 +171,6 @@ class PdfViewViewModel(
         val currentDate = getCurrentDateString()
 
         val intent = Intent(Intent.ACTION_SEND)
-//        val pdfUri = Uri.fromFile(file)
-//        intent.setDataAndType(pdfUri, app.contentResolver.getType(pdfUri))
         intent.type = app.contentResolver.getType(pdfUri)
         intent.putExtra(Intent.EXTRA_SUBJECT,
             "Minor_Electrical_Installation_Works_Certificate_$currentDate")
