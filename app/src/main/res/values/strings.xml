@@ -13,4 +13,5 @@
     <string name="back">back</string>
     <string name="leftArrow"><![CDATA[<-]]></string>
     <string name="rightArrow"><![CDATA[->]]></string>
+    <string name="share">Share</string>
 </resources>

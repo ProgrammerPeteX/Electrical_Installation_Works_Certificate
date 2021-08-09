@@ -1,9 +1,7 @@
 package com.pdstudios.electricalinstallationworkscertificate.screens.pdfView
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +35,9 @@ class PdfViewFragment: Fragment() {
         binding.pdfViewViewModel = viewModel
         binding.lifecycleOwner = this
 
+        //Menu - Share PDF
+        setHasOptionsMenu(true)
+
         //GetTempPdf
         viewModel.getTempPdf()
 
@@ -55,6 +56,26 @@ class PdfViewFragment: Fragment() {
         }
 
         return binding.root
+    }
+
+
+    // Share
+    private fun shareSuccess() {
+        startActivity(viewModel.getShareIntent())
+    }
+
+    // Options menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.share_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menuItem_sharePdf -> shareSuccess();
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
 
