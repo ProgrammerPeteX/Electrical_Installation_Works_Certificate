@@ -14,6 +14,7 @@ class PdfViewFragment: Fragment() {
     private lateinit var binding: FragmentPdfViewBinding
     private lateinit var viewModel: PdfViewViewModel
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +35,8 @@ class PdfViewFragment: Fragment() {
         viewModel = ViewModelProvider(this, factory).get(PdfViewViewModel::class.java)
         binding.pdfViewViewModel = viewModel
         binding.lifecycleOwner = this
+
+
 
         //Menu - Share PDF
         setHasOptionsMenu(true)

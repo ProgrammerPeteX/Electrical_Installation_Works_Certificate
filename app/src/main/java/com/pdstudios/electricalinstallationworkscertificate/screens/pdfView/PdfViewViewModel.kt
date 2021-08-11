@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -48,7 +49,10 @@ class PdfViewViewModel(
     val pdfBitmap: LiveData<Bitmap?>
         get() = _pdfBitmap
 
+    val fieldList = MutableLiveData<MutableList<String>>()
+
     init {
+        fieldList.value = mutableListOf()
         _pageNumberText.value = "0/0"
         _pdfBitmap.value = null
         _navigateToMinorEiwsForm.value = false
@@ -111,8 +115,9 @@ class PdfViewViewModel(
     private fun fillPdfForms(pdfDocument: PdfDocument, mEiwsForm: MEiwsForm): PdfAcroForm {
         val form = PdfAcroForm.getAcroForm(pdfDocument, true)
         val fields = form?.formFields
+        fields?.forEach { fieldList.value?.add(it.value.fieldName.toString()) }
+        Log.i("test", "${fieldList.value}")
 
-        val temp = mEiwsForm.detailsOfClient
         fields?.let {
             it["detailsOfClient"]?.setValue(mEiwsForm.detailsOfClient)
             it["dateMinorWorksCompleted"]?.setValue(mEiwsForm.dateMinorWorksCompleted)

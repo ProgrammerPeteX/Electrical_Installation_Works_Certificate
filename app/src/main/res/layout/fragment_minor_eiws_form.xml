@@ -8,172 +8,189 @@
             name="minorEiwsFormViewModel"
             type= "com.pdstudios.electricalinstallationworkscertificate.screens.minorEiwsForm.MinorEiwsFormViewModel"/>
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".screens.minorEIWS">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:onClick="@{()->minorEiwsFormViewModel.onSave()}"
-            android:text="@string/save"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.538"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/details_of_departures"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/editText_detailsDepartures"
-            app:layout_constraintStart_toStartOf="@+id/editText_detailsDepartures"
-            app:layout_constraintTop_toBottomOf="@+id/editText_descriptionMinorWorks" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/details_of_client"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/editText_detailsClient"
-            app:layout_constraintStart_toStartOf="@+id/editText_detailsClient"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/date_minor_works_completed"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/editText_dateMinorWorks"
-            app:layout_constraintStart_toStartOf="@+id/editText_dateMinorWorks"
-            app:layout_constraintTop_toBottomOf="@+id/editText_detailsClient" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/installation_location_address"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/editText_installationAddress"
-            app:layout_constraintStart_toStartOf="@+id/editText_installationAddress"
-            app:layout_constraintTop_toBottomOf="@+id/editText_dateMinorWorks" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/description_of_the_minor_works"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/editText_descriptionMinorWorks"
-            app:layout_constraintStart_toStartOf="@+id/editText_descriptionMinorWorks"
-            app:layout_constraintTop_toBottomOf="@+id/editText_installationAddress" />
-
-        <EditText
-            android:id="@+id/editText_detailsClient"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="#F3F3F3"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text=""
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <EditText
-            android:id="@+id/editText_dateMinorWorks"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="#F3F3F3"
-            android:ems="10"
-            android:inputType="date|textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/textView3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <EditText
-            android:id="@+id/editText_detailsDepartures"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="#F3F3F3"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/textView7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <EditText
-            android:id="@+id/editText_commentsExistingInstallation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="#F3F3F3"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/checkBox_riskAssessmentAttached"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/checkBox_riskAssessmentAttached"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-        <EditText
-            android:id="@+id/editText_installationAddress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="#F3F3F3"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/textView4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <EditText
-            android:id="@+id/editText_descriptionMinorWorks"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="#F3F3F3"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-        <CheckBox
-            android:id="@+id/checkBox_riskAssessmentAttached"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layoutDirection="rtl"
-            android:text="@string/risk_assessment_attached"
-            app:layout_constraintBottom_toTopOf="@+id/button_save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_commentsExistingInstallation" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/comments_on_the_existing_installation"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/editText_commentsExistingInstallation"
-            app:layout_constraintStart_toStartOf="@+id/editText_commentsExistingInstallation"
-            app:layout_constraintTop_toBottomOf="@+id/editText_detailsDepartures" />
+        </androidx.recyclerview.widget.RecyclerView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:context=".screens.minorEIWS">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button_save"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="24dp"-->
+<!--            android:onClick="@{()->minorEiwsFormViewModel.onSave()}"-->
+<!--            android:text="@string/save"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.538"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView5"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/details_of_departures"-->
+<!--            android:textColor="#000000"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/editText_detailsDepartures"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/editText_detailsDepartures"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editText_descriptionMinorWorks" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/details_of_client"-->
+<!--            android:textColor="#000000"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/editText_detailsClient"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/editText_detailsClient"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/date_minor_works_completed"-->
+<!--            android:textColor="#000000"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/editText_dateMinorWorks"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/editText_dateMinorWorks"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editText_detailsClient" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView3"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/installation_location_address"-->
+<!--            android:textColor="#000000"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/editText_installationAddress"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/editText_installationAddress"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editText_dateMinorWorks" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/description_of_the_minor_works"-->
+<!--            android:textColor="#000000"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/editText_descriptionMinorWorks"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/editText_descriptionMinorWorks"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editText_installationAddress" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editText_detailsClient"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#F3F3F3"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textPersonName"-->
+<!--            android:text=""-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/textView2"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/textView2"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editText_dateMinorWorks"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#F3F3F3"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="date|textPersonName"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/textView3"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/textView3"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView2" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editText_detailsDepartures"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#F3F3F3"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textPersonName"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/textView7"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/textView7"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView5" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editText_commentsExistingInstallation"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#F3F3F3"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textPersonName"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/checkBox_riskAssessmentAttached"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/checkBox_riskAssessmentAttached"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView7" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editText_installationAddress"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#F3F3F3"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textPersonName"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/textView4"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/textView4"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editText_descriptionMinorWorks"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:background="#F3F3F3"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textPersonName"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/textView5"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/textView5"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView4" />-->
+
+<!--        <CheckBox-->
+<!--            android:id="@+id/checkBox_riskAssessmentAttached"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:layoutDirection="rtl"-->
+<!--            android:text="@string/risk_assessment_attached"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button_save"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editText_commentsExistingInstallation" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView7"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/comments_on_the_existing_installation"-->
+<!--            android:textColor="#000000"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/editText_commentsExistingInstallation"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/editText_commentsExistingInstallation"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editText_detailsDepartures" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </layout>
