@@ -22,8 +22,5 @@
         <action
             android:id="@+id/action_pdfViewFragment_to_minorEiwsForm"
             app:destination="@id/minorEiwsForm" />
-        <argument
-            android:name="key"
-            app:argType="long" />
     </fragment>
 </navigation>

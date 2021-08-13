@@ -1,77 +1,65 @@
 package com.pdstudios.electricalinstallationworkscertificate.screens.minorEiwsForm
 
 import android.app.Application
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.itextpdf.forms.PdfAcroForm
-import com.itextpdf.kernel.pdf.PdfDocument
-import com.itextpdf.kernel.pdf.PdfOutputStream
-import com.itextpdf.kernel.pdf.PdfReader
-import com.itextpdf.kernel.pdf.PdfWriter
-import com.pdstudios.electricalinstallationworkscertificate.database.MEiwsForm
+import com.itextpdf.forms.fields.PdfFormField
+import com.itextpdf.kernel.pdf.*
+import com.pdstudios.electricalinstallationworkscertificate.FormField
 import com.pdstudios.electricalinstallationworkscertificate.database.MEiwsFormDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 
 class MinorEiwsFormViewModel(
     private val dao: MEiwsFormDao,
     private val app: Application
 ): AndroidViewModel(app) {
 
+    var formFieldList: MutableLiveData<MutableList<FormField>>
+    = MutableLiveData(mutableListOf())
+
     private lateinit var file: File
-    private lateinit var pdfBitmap: Bitmap
 
     private var _saveForm = MutableLiveData<Boolean?>()
     val saveForm: LiveData<Boolean?>
         get() = _saveForm
 
-    private var _eiwsKey = MutableLiveData<Long?>()
-    val eiwsKey: LiveData<Long?>
-        get() = _eiwsKey
-
-    private var _mEiwsForm = MutableLiveData<MEiwsForm>()
-    val mEiwsForm: LiveData<MEiwsForm>
-        get() = _mEiwsForm
-
     private var _finishedLoadingPdf = MutableLiveData<Boolean?>()
     val finishedLoadingPdf: LiveData<Boolean?>
         get() = _finishedLoadingPdf
 
-    val fieldList = MutableLiveData<MutableList<String>>()
+    // STREAMS
+    private lateinit var fileInputStream: InputStream
+    private lateinit var fileOutputStream: FileOutputStream
+    private lateinit var pdfOutputStream: PdfOutputStream
+    private lateinit var pdfReader: PdfReader
+    private lateinit var pdfWriter: PdfWriter
+    private lateinit var pdfDocument: PdfDocument
+
 
     init {
-        fieldList.value = mutableListOf()
         _saveForm.value = null
-        _mEiwsForm.value = MEiwsForm()
-        _eiwsKey.value = null
         _finishedLoadingPdf.value = null
+
     }
 
     fun onSave() {
         viewModelScope.launch {
             _saveForm.value = true
-            saveToDatabase()
-            _eiwsKey.value = getKey()
-            Log.i("","")
-        }
-    }
+            //fill forms
+            val form = fillPdfForms(pdfDocument)
+            form.flattenFields()
 
-    private suspend fun saveToDatabase() {
-        withContext(Dispatchers.IO) {
-            dao.insert(mEiwsForm.value!!)
-        }
-    }
-
-    private suspend fun getKey(): Long {
-        return withContext(Dispatchers.IO) {
-            dao.getLast().primaryKey
+            //close streams
+            closeStreams()
         }
     }
 
@@ -84,77 +72,71 @@ class MinorEiwsFormViewModel(
             file = File(app.applicationContext.filesDir, filename)
 
             //get input and output streams
-            val pdfInputStream = withContext(Dispatchers.IO){
-                app.applicationContext.assets?.open("minor_electrical_installation_works_certificate.pdf")
+            fileInputStream = withContext(Dispatchers.IO){
+                app.applicationContext.assets?.
+                open("minor_electrical_installation_works_certificate.pdf")!!
             }
-            val fileOutputStream = withContext(Dispatchers.IO) {
-                FileOutputStream(file)
-            }
+            fileOutputStream = withContext(Dispatchers.IO) { FileOutputStream(file) }
 
-            val pdfOutputStream = PdfOutputStream(fileOutputStream)
+            pdfOutputStream = PdfOutputStream(fileOutputStream)
 
             //get pdf document
-            val pdfReader = withContext(Dispatchers.IO) {
-                PdfReader(pdfInputStream!!)
-            }
+            pdfReader = withContext(Dispatchers.IO) { PdfReader(fileInputStream) }
 
-            val pdfWriter = PdfWriter(pdfOutputStream)
-            val pdfDocument = PdfDocument(pdfReader, pdfWriter)
+            pdfWriter = PdfWriter(pdfOutputStream)
+            pdfDocument = PdfDocument(pdfReader, pdfWriter)
 
-            //fill forms
-//            val form = fillPdfForms(pdfDocument, mEiwsForm)
+            //get fieldList
             val form = PdfAcroForm.getAcroForm(pdfDocument, true)
-            val fields = form?.formFields
+            val fields = form.formFields
             fields?.forEach {
-                fieldList.value?.add(it.value.fieldName.toString())
+                val isEditText = it.value.formType == PdfName.Tx
+                val isCheckBox = it.value.formType == PdfName.Btn
+                val formField = FormField()
+                formField.name = it.key
+                formField.type = when {
+                    isEditText -> "EditText"
+                    isCheckBox -> "CheckBox"
+                    else -> throw IllegalStateException("State is neither EditText nor CheckBox")
+                }
+                formFieldList.value!!.add(formField)
             }
-
-            Log.i("","")
-
-            //flatten form
-//            form.flattenFields()
-
-            //close all streams
-            withContext(Dispatchers.IO) {
-                pdfDocument.close()
-                pdfReader.close()
-                pdfWriter.close()
-                pdfInputStream?.close()
-                fileOutputStream.close()
-                pdfOutputStream.close()
-            }
-
-
-            //set bitmap to imageView
             _finishedLoadingPdf.value = true
         }
     }
 
-//    private fun fillPdfForms(pdfDocument: PdfDocument, mEiwsForm: MEiwsForm): PdfAcroForm {
-//        val form = PdfAcroForm.getAcroForm(pdfDocument, true)
-//        val fields = form?.formFields
-//        fields?.forEach { fieldList.value?.add(it.value.fieldName.toString()) }
-//        Log.i("test", "${fieldList.value}")
-//
-//        fields?.let {
-//            it["detailsOfClient"]?.setValue(mEiwsForm.detailsOfClient)
-//            it["dateMinorWorksCompleted"]?.setValue(mEiwsForm.dateMinorWorksCompleted)
-//            it["installationAddress"]?.setValue(mEiwsForm.installationAddress)
-//            it["descriptionMinorWorks"]?.setValue(mEiwsForm.descriptionMinorWorks)
-//            it["detailsOfDepartures"]?.setValue(mEiwsForm.detailsOfDepartures)
-//            it["commentsOnExistingInstallations"]?.setValue(mEiwsForm.commentsExistingInstallation)
-//            it["riskAssessmentAttached"]?.setCheckType(PdfFormField.TYPE_CHECK)
-//            if(mEiwsForm.riskAssessmentAttached) {
-//                it["riskAssessmentAttached"]?.setValue("Yes")
-//            }
-//        }
-//        return form
-//    }
+    private fun fillPdfForms(pdfDocument: PdfDocument): PdfAcroForm {
+        val pdfAcroForm = PdfAcroForm.getAcroForm(pdfDocument, true)
+        val fields = pdfAcroForm?.formFields
 
-//    private suspend fun loadForm(): MEiwsForm {
-//        return withContext(Dispatchers.IO) {
-//            dao.get(_eiwsKey.value!!)
-//        }
-//    }
+        formFieldList.value?.forEach { formField ->
+            val isEditText = formField.type == "EditText"
+            val isCheckBox = formField.type == "CheckBox"
+            fields?.get(formField.name)?.let { field ->
+                when {
+                    isEditText ->  field.setValue(formField.value)
+                    isCheckBox -> {
+                        field.setCheckType(
+                            if (formField.value == "true") PdfFormField.TYPE_CHECK
+                            else PdfFormField.TYPE_CROSS)
+                        field.setValue("Yes")
+                    }
+                    else -> null
+                }
+            }
 
+            Log.i("test", "${formField.name}--${fields?.get(formField.name)?.valueAsString!!}")
+        }
+        return pdfAcroForm
+    }
+
+    private fun closeStreams() {
+        pdfDocument.close()
+        pdfReader.close()
+
+        pdfWriter.close()
+        fileInputStream.close()
+        fileOutputStream.close()
+        pdfOutputStream.close()
+    }
 }

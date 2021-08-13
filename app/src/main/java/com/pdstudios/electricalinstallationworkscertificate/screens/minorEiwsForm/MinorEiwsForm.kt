@@ -18,8 +18,9 @@ class MinorEiwsForm : Fragment() {
 
     private lateinit var binding: FragmentMinorEiwsFormBinding
     private lateinit var viewModel: MinorEiwsFormViewModel
+
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<PdfViewRecyclerAdapter.ViewHolder>? = null
+    private var adapter: RecyclerView.Adapter<MinorEiwsFormRecyclerAdapter.ViewHolder>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +36,6 @@ class MinorEiwsForm : Fragment() {
         val dao = MEiwsDatabase.getInstance(application).mEiwsFormDao
 
         //ViewModel
-        val temp = 0 // DELETE
         val factory = MinorEiwsFormViewModelFactory(dao, application)
         viewModel = ViewModelProvider(this, factory).get(MinorEiwsFormViewModel::class.java)
         binding.minorEiwsFormViewModel = viewModel
@@ -45,57 +45,27 @@ class MinorEiwsForm : Fragment() {
         //get Pdf
         viewModel.getTempPdf()
 
-        //RecyclerView
+        //Observers
+            //RecyclerView
         viewModel.finishedLoadingPdf.observe(viewLifecycleOwner) {
             it?.let {
-                val something = viewModel.fieldList.value
                 layoutManager = LinearLayoutManager(this.context)
                 binding.recyclerView.layoutManager = layoutManager
-                adapter = PdfViewRecyclerAdapter(viewModel.fieldList, viewLifecycleOwner)
+                adapter = MinorEiwsFormRecyclerAdapter(viewModel.formFieldList)
                 binding.recyclerView.adapter = adapter
             }
-
         }
 
-
-        //Observers
         viewModel.saveForm.observe(viewLifecycleOwner) {
             it?.let {
-                getDetails()
-            }
-        }
-
-        viewModel.eiwsKey.observe(viewLifecycleOwner) { key ->
-            key?.let {
-//                navigate(key)
-//                clearAll()
+                navigate()
             }
         }
         return binding.root
     }
 
-    private fun navigate(key: Long) {
-        this.findNavController().navigate(MinorEiwsFormDirections.actionMinorEiwsFormToPdfViewFragment(key))
+    private fun navigate() {
+        this.findNavController().navigate(MinorEiwsFormDirections.actionMinorEiwsFormToPdfViewFragment())
     }
 
-    private fun getDetails() {
-//        viewModel.mEiwsForm.value?.let {
-//            it.detailsOfClient = binding.editTextDetailsClient.text.toString()
-//            it.dateMinorWorksCompleted = binding.editTextDateMinorWorks.text.toString()
-//            it.installationAddress = binding.editTextInstallationAddress.text.toString()
-//            it.descriptionMinorWorks = binding.editTextDescriptionMinorWorks.text.toString()
-//            it.detailsOfDepartures = binding.editTextDetailsDepartures.text.toString()
-//            it.commentsExistingInstallation = binding.editTextCommentsExistingInstallation.text.toString()
-//            it.riskAssessmentAttached = binding.checkBoxRiskAssessmentAttached.isChecked
-//        }
-    }
-
-//    private fun clearAll() {
-//        binding.editTextDetailsClient.setText("")
-//        binding.editTextDateMinorWorks.setText("")
-//        binding.editTextInstallationAddress.setText("")
-//        binding.editTextDescriptionMinorWorks.setText("")
-//        binding.editTextDetailsDepartures.setText("")
-//        binding.editTextCommentsExistingInstallation.setText("")
-//    }
 }

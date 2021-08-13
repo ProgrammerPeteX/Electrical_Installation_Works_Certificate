@@ -20,8 +20,6 @@ class PdfViewFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //Args
-        val args = PdfViewFragmentArgs.fromBundle(requireArguments())
 
         //Binding
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pdf_view,container,false)
@@ -31,7 +29,7 @@ class PdfViewFragment: Fragment() {
         val database = MEiwsDatabase.getInstance(application).mEiwsFormDao
 
         //ViewModel
-        val factory = PdfViewViewModelFactory(args.key, database, application)
+        val factory = PdfViewViewModelFactory(database, application)
         viewModel = ViewModelProvider(this, factory).get(PdfViewViewModel::class.java)
         binding.pdfViewViewModel = viewModel
         binding.lifecycleOwner = this
